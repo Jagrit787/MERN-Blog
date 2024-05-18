@@ -25,6 +25,19 @@ app.use('/api/user', userRoutes)
 app.use('/api/auth', authRoutes)
 
 
+//middleware to handle all errors
+app.use((err, req, res, next)=>{
+    //if no statuscode then send 500 as default
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
+    res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message,
+    })
+});
+
+
 app.listen(3000, ()=>{
     console.log('server is running on port 3000')
 });
