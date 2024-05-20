@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js'
 import authRoutes from './routes/auth.route.js'
+import cors from 'cors'
 
 dotenv.config();
 const uri= process.env.MONGO
@@ -18,8 +19,12 @@ mongoose
     
 const app = express();
 
-//to allow json to be passed as input especially in insomnia and postman to test the APIs, we do:
+//middleware to ienable CORS
+app.use(cors())
+
+//middleware to allow json to be passed as input especially in insomnia and postman to test the APIs, we do:
 app.use(express.json());
+
 
 app.use('/api/user', userRoutes)
 app.use('/api/auth', authRoutes)

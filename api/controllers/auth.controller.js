@@ -1,5 +1,5 @@
 import User from "../models/user.model.js";
-import bcryptjs from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import { errorHandler } from "../utils/error.js";
 
 //we catch next for the middleware
@@ -10,7 +10,9 @@ export const signup = async(req, res, next) =>{
        next(errorHandler(400, 'All fields are required!'))
     }
     //hash the password
-    const hashedPassword= bcryptjs.hashSync(password, 10)
+    const saltRounds= 10;
+    //remember this await before bcrypt
+    const hashedPassword= await bcrypt.hash(password, saltRounds)
 
     //creating a new user from the schema in models. Also if key-value pair values are same, with ES-6 we can just write one like this: 
 
