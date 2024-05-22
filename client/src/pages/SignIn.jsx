@@ -14,7 +14,7 @@ export default function SignIn() {
   // const [loading, setLoading] = useState(false);
   //here loading means loading:loading
   const { loading, error: errorMessage } = useSelector(
-    state => state.user
+    (state) => state.user
   );
 
   const dispatch = useDispatch();
