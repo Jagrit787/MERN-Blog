@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js'
 import authRoutes from './routes/auth.route.js'
 import cors from 'cors'
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 const uri= process.env.MONGO
@@ -28,7 +29,7 @@ app.use(cors({
 
 //middleware to allow json to be passed as input especially in insomnia and postman to test the APIs, we do:
 app.use(express.json());
-
+app.use(cookieParser())
 
 app.use('/api/user', userRoutes)
 app.use('/api/auth', authRoutes)
