@@ -1,11 +1,15 @@
 import bcrypt from "bcryptjs";
-import { errorHandler } from "../utils/error";
+import { errorHandler } from "../utils/error.js";
+import User from '../models/user.model.js'
 
 export const test = (req, res) => {
   res.json({ message: "API is working" });
 };
 
 export const updateUser = async (req, res, next) => {
+//     console.log("req.user.id: ", req.user.id);
+//   console.log("req.params.userId: ", req.params.userId);
+//   console.log("req.body: ", req.body);
   //cookie id comes from->req.user.id
   //it needs to be checked with the userId supplied with update(frontend) ->req.params.userId
   if (req.user.id !== req.params.userId) {

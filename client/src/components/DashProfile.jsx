@@ -20,7 +20,7 @@ import {
 import { useDispatch } from "react-redux";
 
 export default function DashProfile() {
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -93,7 +93,7 @@ export default function DashProfile() {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
           setFormData({ ...formData, profilePicture: downloadURL });
-          setImageFileUploading(false)
+          setImageFileUploading(false);
         });
       }
     );
@@ -101,6 +101,7 @@ export default function DashProfile() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
+    // console.log(formData);
     //trim to not allow any spaces
   };
 
@@ -108,13 +109,14 @@ export default function DashProfile() {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
-    if (Object.keys(formData).length === 0){
-      setUpdateUserError("No changes made"); return
-    } 
-    if(imageFileUploading){
-      setUpdateUserError("Please wait for image to upload")
+    if (Object.keys(formData).length === 0) {
+      setUpdateUserError("No changes made");
       return;
-    };
+    }
+    if (imageFileUploading) {
+      setUpdateUserError("Please wait for image to upload");
+      return;
+    }
     try {
       dispatch(updateStart());
       //response at dynamic url
@@ -129,10 +131,11 @@ export default function DashProfile() {
         setUpdateUserError(data.message);
       } else {
         dispatch(updateSuccess(data.message));
-        setUpdateUserSuccess("Profile updated successfully")
+        setUpdateUserSuccess("Profile updated successfully");
       }
     } catch (error) {
       dispatch(updateFailure(error.message));
+      setUpdateUserError(error.message);
     }
   };
   return (
@@ -209,13 +212,8 @@ export default function DashProfile() {
           placeholder="password"
           onChange={handleChange}
         />
-        <Button
-          type="submit"
-          gradientDuoTone="purpleToBlue"
-          outline
-          // disabled={loading || imageFileUploading}
-        >
-          {/* {loading ? "Loading..." : "Update"} */}
+        <Button type="submit" gradientDuoTone="purpleToBlue" outline>
+          Update
         </Button>
         {/* {currentUser.isAdmin && (
           <Link to={"/create-post"}>
@@ -239,7 +237,7 @@ export default function DashProfile() {
         </Alert>
       )}
 
-      {updateUserStatus &&(
+      {updateUserSuccess && (
         <Alert color="success" className="mt-5">
           {updateUserStatus}
         </Alert>

@@ -21,11 +21,11 @@ mongoose
 const app = express();
 
 // middleware to enable CORS
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true,
+// app.use(cors({
+//     origin: 'http://localhost:5173',
+//     credentials: true,
     
-}))
+// }))
 
 //middleware to allow json to be passed as input especially in insomnia and postman to test the APIs, we do:
 app.use(express.json());
