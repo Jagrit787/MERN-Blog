@@ -33,7 +33,7 @@ export const updateUser = async (req, res, next) => {
     if (req.body.username !== req.body.username.toLowerCase()) {
       return next(errorHandler(400, "Username must be lowercase"));
     }
-    // /^ STANDS FOR "doesnot match"
+    // /^ STANDS FOR "does not match"
     if (!req.body.username.match(/^[a-zA-Z0-9]+$/)) {
       return next(
         errorHandler(400, "Username can only contain letters and numbers")
@@ -68,6 +68,15 @@ export const deleteUser = async (req, res, next) => {
   try {
     await User.findByIdAndDelete(req.params.userId);
     res.status(200).json({ message: "User has been deleted" });
+  } catch (error) {
+    next(error)
+  }
+}
+
+//TODO: Signout
+export const signout = async (req, res, next) => {
+  try {
+    res.clearCookie('access_token').status(200).json('User has been signed out')
   } catch (error) {
     next(error)
   }
