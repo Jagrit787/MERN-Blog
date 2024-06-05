@@ -164,21 +164,21 @@ export default function DashProfile() {
     }
   };
 
-  const handleSignout= async()=>{
+  const handleSignout = async () => {
     try {
-      const res= await fetch(`/api/user/signout`, {
-        method:'POST',
+      const res = await fetch(`/api/user/signout`, {
+        method: "POST",
       });
       const data = await res.json();
-      if(!res.ok){
+      if (!res.ok) {
         console.log(data.message);
-      }else{
+      } else {
         dispatch(signoutSuccess());
       }
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
@@ -254,10 +254,16 @@ export default function DashProfile() {
           placeholder="password"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline>
-          Update
+        <Button
+          type="submit"
+          gradientDuoTone="purpleToBlue"
+          outline
+          disabled={loading || imageFileUploading}
+        >
+          {loading ? "Loading..." : "Update"}
         </Button>
-        {/* {currentUser.isAdmin && (
+        
+        {currentUser.isAdmin && (
           <Link to={"/create-post"}>
             <Button
               type="button"
@@ -266,8 +272,8 @@ export default function DashProfile() {
             >
               Create a post
             </Button>
-          </Link> */}
-        {/* )} */}
+          </Link>
+        )}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span
@@ -278,7 +284,9 @@ export default function DashProfile() {
         >
           Delete Account
         </span>
-        <span onClick={handleSignout} className="cursor-pointer">Sign Out</span>
+        <span onClick={handleSignout} className="cursor-pointer">
+          Sign Out
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
