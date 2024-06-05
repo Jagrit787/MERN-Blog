@@ -1,4 +1,4 @@
-
+import DashPosts from '../components/DashPosts'
 import DashProfile from '../components/DashProfile'
 import DashSidebar from '../components/DashSidebar'
 import {useState, useEffect} from 'react'
@@ -26,7 +26,7 @@ export default function Dashboard() {
       
       {/* profile... */}
       {tab === 'profile' && <DashProfile />}
-      {/* posts...
+      {/* posts...*/}
       {tab === 'posts' && <DashPosts />}
       {/* users */}
       {/* {tab === 'users' && <DashUsers />} */}
