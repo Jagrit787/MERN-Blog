@@ -59,7 +59,10 @@ export const signin = async (req, res, next) => {
     }
 
     //if everything is correct
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET_KEY);
+    const token = jwt.sign(
+      { id: validUser._id, isAdmin: validUser.isAdmin },
+      process.env.JWT_SECRET_KEY
+    );
 
     const { password: pass, ...rest } = validUser._doc;
 
@@ -72,14 +75,16 @@ export const signin = async (req, res, next) => {
   }
 };
 
-
 //TODO: the google function
 export const google = async (req, res, next) => {
   const { email, name, googlePhotoUrl } = req.body;
   try {
     const user = await User.findOne({ email });
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY);
+      const token = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET_KEY
+      );
       const { password: pass, ...rest } = user._doc;
       res
         .status(200)
@@ -87,28 +92,30 @@ export const google = async (req, res, next) => {
           httpOnly: true,
         })
         .json(rest);
-    }
-    else{
-      //TODO: If the user doesnt exist, we create a new user by generating a random password, hashing it and adding a new user 
+    } else {
+      //TODO: If the user doesnt exist, we create a new user by generating a random password, hashing it and adding a new user
       //ToString(36) contains all A-Z and 0-9
-      const generatedPassword = Math.random().toString(36).slice(-8)+ Math.random().toString(36).slice(-8);
-      const hashedPassword= bcrypt.hashSync(generatedPassword,10);
-      const newUser= new User({
-      username: name.toLowerCase().split(' ').join('') + Math.random().toString(9).slice(-4),
-      email: email,
-      password:  hashedPassword,
-      profilePicture: googlePhotoUrl,
-      })
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
+      const newUser = new User({
+        username:
+          name.toLowerCase().split(" ").join("") +
+          Math.random().toString(9).slice(-4),
+        email: email,
+        password: hashedPassword,
+        profilePicture: googlePhotoUrl,
+      });
       await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
-      const { password: pass,...rest } = newUser._doc;
+      const token = jwt.sign({ id: newUser._id, isAdmin: newUser.isAdmin}, process.env.JWT_SECRET_KEY);
+      const { password: pass, ...rest } = newUser._doc;
       res
         .status(200)
         .cookie("access_token", token, {
           httpOnly: true,
         })
         .json(rest);
-
     }
   } catch (error) {
     next(error);
