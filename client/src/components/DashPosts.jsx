@@ -28,13 +28,11 @@ export default function DashPosts() {
       fetchPosts();
     }
   }, [currentUser._id]);
-  const startIndex = userPosts.length;
-  console.log(startIndex)
+  
 //TODO: to handle showMore function
 const handleShowMore = async()=>{
   //start from the end of the list
   const startIndex = userPosts.length;
-  console.log(startIndex)
   try {
     const res= await fetch(`/api/post/getposts?userId?=${currentUser._id}&startIndex=${startIndex}`);
     const data= await res.json();
