@@ -1,6 +1,7 @@
 import Post from "../models/post.model.js";
 import { errorHandler } from "../utils/error.js";
 
+//TODO: CreatePost
 export const create = async (req, res, next) => {
   if (!req.user.isAdmin) {
     return next(errorHandler(403, "You are not allowed to create a post"));
@@ -26,6 +27,7 @@ export const create = async (req, res, next) => {
   }
 };
 
+//TODO: GetPost
 export const getPosts = async (req, res) => {
   try {
     const startIndex = parseInt(req.query.startIndex) ||0;
@@ -73,6 +75,44 @@ export const getPosts = async (req, res) => {
       totalPosts,
       lastMonthPosts,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//TODO: Delete post
+export const deletePost = async (req, res) => {
+  if (!req.user.isAdmin || req.user.id !==req.params.userId) {
+    return next(errorHandler(403, "You are not allowed to delete a post"));
+  }
+  try {
+    await Post.findByIdAndDelete(req.params.postId);
+    res.status(200).json({ message: "Post has been deleted" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+//TODO: Update post
+export const updatepost = async (req, res, next) => {
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    return next(errorHandler(403, 'You are not allowed to update this post'));
+  }
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.postId,
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          category: req.body.category,
+          image: req.body.image,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedPost);
   } catch (error) {
     next(error);
   }
