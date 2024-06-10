@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { test, updateUser, deleteUser, signout, getUsers} from "../controllers/user.controller.js";
+import { test, updateUser, deleteUser, signout, getUsers, getUser} from "../controllers/user.controller.js";
 import { verifyToken } from "../utils/verifyUser.js";
 
 
@@ -11,6 +11,10 @@ router.put("/update/:userId", verifyToken, updateUser);
 router.delete('/delete/:userId', verifyToken, deleteUser);
 router.post('/signout',signout);
 
+//this getusers is protected for admin only
 router.get('/getusers',verifyToken, getUsers);
+
+//getusers for comments
+router.get('/:userId', getUser)
 
 export default router;
