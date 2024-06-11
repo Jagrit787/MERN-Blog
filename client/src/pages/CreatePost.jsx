@@ -11,7 +11,7 @@ import {
 import { app } from "../firebase";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 export default function CreatePost() {
   const [file, setFile] = useState(null);
@@ -19,7 +19,7 @@ export default function CreatePost() {
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
-  const navigate= useNavigate()
+  const navigate = useNavigate();
   const handleUploadImage = async () => {
     try {
       if (!file) {
@@ -55,31 +55,29 @@ export default function CreatePost() {
       setImageUploadProgress(null);
       console.log(error);
     }
-
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res= await fetch("/api/post/create",{
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json'
+      const res = await fetch("/api/post/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body:JSON.stringify(formData)
-      })
-      const data= await res.json()
-      if(!res.ok){
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
         setPublishError(data.message);
-        return
+        return;
       }
-      if(res.ok){
-      setPublishError(null);
-      navigate(`/post/${data.slug}`)
+      if (res.ok) {
+        setPublishError(null);
+        navigate(`/post/${data.slug}`);
       }
     } catch (error) {
-      setPublishError('Something went wrong')
+      setPublishError("Something went wrong");
     }
   };
 
@@ -105,10 +103,10 @@ export default function CreatePost() {
           >
             <option value="uncategorized">Select a category</option>
             <option value="entertainment">Entertainment</option>
-            <option value="tech">Technology</option>
+            <option value="technology">Technology</option>
             <option value="gossip">Gossip</option>
-            <option value="life">Life is amazing</option>
-            <option value="sucks">Everything sucks</option>
+            <option value="life-is-amazing">Life is amazing</option>
+            <option value="everything-sucks">Everything sucks</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
@@ -155,14 +153,18 @@ export default function CreatePost() {
           className="h-72 mb-12"
           required
           onChange={(value) => {
-            setFormData({...formData, content: value });
+            setFormData({ ...formData, content: value });
           }}
         />
-        <Button type="submit" gradientDuoTone="purpleToPink" >
+        <Button type="submit" gradientDuoTone="purpleToPink">
           Publish
         </Button>
 
-        {publishError && <Alert className="mt-5" color="failure">{publishError}</Alert>}
+        {publishError && (
+          <Alert className="mt-5" color="failure">
+            {publishError}
+          </Alert>
+        )}
       </form>
     </div>
   );
