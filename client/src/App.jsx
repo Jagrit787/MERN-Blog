@@ -14,6 +14,8 @@ import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
 import ScrollToTop from "./components/ScrollToTop";
 import Search from "./pages/Search";
+import TermsAndConditions from "./components/TermsandConditions";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 export default function App() {
   return (
     <BrowserRouter>
@@ -40,6 +42,10 @@ export default function App() {
 
         <Route path="/projects" element={<Projects />} />
         <Route path="/post/:postSlug" element={<PostPage/>} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        
+
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -1,0 +1,35 @@
+/* src/components/TermsAndConditions.module.css */
+
+.termsContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.termsTitle {
+    text-align: center;
+    color: #2c3e50;
+}
+
+.termsSubtitle {
+    color: #34495e;
+}
+
+.termsParagraph {
+    margin-bottom: 1em;
+}
+
+.termsList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.termsListItem {
+    background: #ecf0f1;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+}
