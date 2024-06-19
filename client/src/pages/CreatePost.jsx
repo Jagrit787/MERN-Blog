@@ -15,18 +15,19 @@ import { useNavigate } from "react-router-dom";
 
 export default function CreatePost() {
   const [file, setFile] = useState(null);
-  const [imageUploadProgress, setImageUploadProgress] = useState(null);
-  const [imageUploadError, setImageUploadError] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(null);
+  const [uploadError, setUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
   const navigate = useNavigate();
-  const handleUploadImage = async () => {
+
+  const handleUploadFile = async () => {
     try {
       if (!file) {
-        setImageUploadError("Please select an image");
+        setUploadError("Please select a file");
         return;
       }
-      setImageUploadError(null);
+      setUploadError(null);
       const storage = getStorage(app);
       const fileName = new Date().getTime() + "-" + file.name;
       const storageRef = ref(storage, fileName);
@@ -34,25 +35,24 @@ export default function CreatePost() {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setImageUploadProgress(progress.toFixed(0));
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadProgress(progress.toFixed(0));
         },
         (error) => {
-          setImageUploadError("Image upload failed");
-          setImageUploadProgress(null);
+          setUploadError("File upload failed");
+          setUploadProgress(null);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setImageUploadProgress(null);
-            setImageUploadError(null);
-            setFormData({ ...formData, image: downloadURL });
+            setUploadProgress(null);
+            setUploadError(null);
+            setFormData({ ...formData, media: downloadURL });
           });
         }
       );
     } catch (error) {
-      setImageUploadError("Image upload failed");
-      setImageUploadProgress(null);
+      setUploadError("File upload failed");
+      setUploadProgress(null);
       console.log(error);
     }
   };
@@ -105,14 +105,16 @@ export default function CreatePost() {
             <option value="entertainment">Entertainment</option>
             <option value="technology">Technology</option>
             <option value="gossip">Gossip</option>
-            <option value="life-is-amazing">Life is amazing</option>
-            <option value="everything-sucks">Everything sucks</option>
+            <option value="college">College</option>
+            <option value="sports">Sports</option>
+            <option value="music">Music</option>
+
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
           <FileInput
             type="file"
-            accept="image/*"
+            accept="image/*,video/*"
             onChange={(e) => setFile(e.target.files[0])}
           />
           <Button
@@ -120,31 +122,32 @@ export default function CreatePost() {
             gradientDuoTone="purpleToBlue"
             size="sm"
             outline
-            onClick={handleUploadImage}
-            disabled={imageUploadProgress}
+            onClick={handleUploadFile}
+            disabled={uploadProgress}
           >
-            {imageUploadProgress ? (
+            {uploadProgress ? (
               <div className="w-16 h-16">
                 <CircularProgressbar
-                  value={imageUploadProgress}
-                  text={`${imageUploadProgress || 0}%`}
+                  value={uploadProgress}
+                  text={`${uploadProgress || 0}%`}
                 />
               </div>
             ) : (
-              "Upload Image"
+              "Upload File"
             )}
           </Button>
         </div>
 
-        {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
+        {uploadError && <Alert color="failure">{uploadError}</Alert>}
 
-        {/* //to see the image in the UI after upload */}
-        {formData.image && (
-          <img
-            src={formData.image}
-            alt="uploaded-image"
-            className="w-full h-72 object-cover"
-          />
+        {formData.media && (
+          <div className="w-full h-72 object-cover">
+            {file && file.type.startsWith("image/") ? (
+              <img src={formData.media} alt="uploaded-media" />
+            ) : (
+              <video src={formData.media} controls className="w-full h-full" />
+            )}
+          </div>
         )}
 
         <ReactQuill

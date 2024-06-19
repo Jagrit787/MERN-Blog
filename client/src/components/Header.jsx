@@ -65,13 +65,12 @@ export default function Header() {
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className="px-2 py-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-lg text-white">
+        <span className="px-2 py-1 bg-gradient-to-r from-purple-400 via-purple-500 to-pink-500 rounded-lg text-white">
           {" "}
-          Jags
+          J@gs Blog
         </span>
-        Blog
       </Link>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="border-2 rounded-md border-green-900 ">
         <TextInput
           type="text"
           placeholder="Search..."
@@ -135,8 +134,17 @@ export default function Header() {
         <Navbar.Link active={path === "/about"} as={"div"}>
           <Link to="/about">About</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/projects"} as={"div"}>
-          <Link to="/projects">Projects</Link>
+        <Navbar.Link active={path === "/search?searchTerm=&sort=null&category=technology"} as={"div"}>
+          <Link to="/search?searchTerm=&sort=null&category=technology">Technology</Link>
+        </Navbar.Link>
+        <Navbar.Link active={path === "/search?searchTerm=&sort=null&category=entertainment"} as={"div"}>
+          <Link to="/search?searchTerm=&sort=null&category=entertainment">Entertainment</Link>
+        </Navbar.Link>
+        <Navbar.Link active={path === "/search?searchTerm=&sort=null&category=entertainment"} as={"div"}>
+          <Link to="/search?searchTerm=&sort=null&category=sports">Sports</Link>
+        </Navbar.Link>
+        <Navbar.Link active={path === "/search?searchTerm=&sort=null&category=entertainment"} as={"div"}>
+          <Link to="/search?searchTerm=&sort=null&category=music">Music</Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>

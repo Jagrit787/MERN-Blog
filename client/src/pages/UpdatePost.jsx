@@ -137,10 +137,12 @@ export default function UpdatePost() {
           >
             <option value="uncategorized">Select a category</option>
             <option value="entertainment">Entertainment</option>
-            <option value="tech">Technology</option>
+            <option value="technology">Technology</option>
             <option value="gossip">Gossip</option>
-            <option value="life">Life is amazing</option>
-            <option value="sucks">Everything sucks</option>
+            <option value="sports">Sports</option>
+            <option value="music">Music</option>
+            <option value="college">College</option>
+
           </Select>
           ;
         </div>

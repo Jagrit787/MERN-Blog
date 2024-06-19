@@ -65,11 +65,13 @@ export default function DashPosts() {
       );
       const data = await res.json();
       if (res.ok) {
-        console.log(data.message);
-      } else {
         setUserPosts((prev) =>
           prev.filter((post) => post._id !== PostIdToDeletePost)
         );
+        console.log(data.message);
+      } else {
+        
+        console.log(error.message);
       }
     } catch (error) {
       console.log(error.message);
@@ -93,7 +95,7 @@ export default function DashPosts() {
             </Table.Head>
             {userPosts.map((post) => (
               <Table.Body className="divide-y">
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Row key={post._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell>
                     {/* readable date */}
                     {new Date(post.updatedAt).toLocaleDateString()}

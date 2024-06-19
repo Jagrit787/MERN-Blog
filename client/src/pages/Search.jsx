@@ -131,8 +131,10 @@ export default function Search() {
               <option value="entertainment">Entertainment</option>
               <option value="technology">Technology</option>
               <option value="gossip">Gossip</option>
-              <option value="life-is-amazing">Life is amazing</option>
-              <option value="everything-sucks">Everything sucks</option>
+              <option value="college">College</option>
+              <option value="sports">Sports</option>
+              <option value="music">Music</option>
+
             </Select>
           </div>
           <Button type="submit" outline gradientDuoTone="purpleToPink">
