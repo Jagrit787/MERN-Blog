@@ -23,7 +23,8 @@ mongoose
   const __dirname = path.resolve()
 
 const app = express();
-
+app.use(express.json({ limit: '10mb' })); // Adjust the size as needed
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // middleware to enable CORS
 // app.use(cors({
 //     origin: 'http://localhost:5173',
